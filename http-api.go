@@ -47,24 +47,30 @@ func main() {
 }
 
 func getPost(w http.ResponseWriter, r *http.Request) {
-	// route parameterを取得する
+	// リクエストのidの部分を取得
 	var idParam string = mux.Vars(r)["id"]
+	// idPram= id エラーがあれば（数値でなければ）追加で渡す
 	id, err := strconv.Atoi(idParam)
+	//
 	if err != nil {
 		w.WriteHeader(400)
 		w.Write([]byte("ID could not be converted to integer"))
 		return
 	}
 	// エラーチェック
+	// GETで取得したidが投稿数より大きい場合
 	if id >= len(posts) {
+		// 404エラーを返しす
 		w.WriteHeader(404)
 		w.Write([]byte("No post found with specified ID"))
 		return
 	}
-
+	// postsスライスに格納されているpostを取り出す
 	post := posts[id]
 
+	// responseをjson書式で返すと言う情報を入れる
 	w.Header().Set("Content-Type", "application/json")
+	// postをjson形式でresponseを送る
 	json.NewEncoder(w).Encode(post)
 }
 
@@ -76,7 +82,7 @@ func getAllPosts(w http.ResponseWriter, r *http.Request) {
 
 func addItem(w http.ResponseWriter, r *http.Request) {
 	var newPost Post
-	// jsonでpostでリクエストされた値をnewItemに入力
+	// jsonでpostでリクエストで送られた値を読み込みnewItemに入力
 	json.NewDecoder(r.Body).Decode(&newPost)
 
 	posts = append(posts, newPost)
@@ -105,6 +111,7 @@ func updatePost(w http.ResponseWriter, r *http.Request) {
 	var updatedPost Post
 	json.NewDecoder(r.Body).Decode(&updatedPost)
 
+	// updatedされたpostをpostsに格納
 	posts[id] = updatedPost
 
 	w.Header().Set("Content-Type", "application/json")
@@ -127,6 +134,7 @@ func patchPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// postは*Post型
 	post := &posts[id]
 	json.NewDecoder(r.Body).Decode(post)
 
