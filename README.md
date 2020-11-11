@@ -1,5 +1,3 @@
-[![Image from Gyazo](https://i.gyazo.com/7977673b0eb95f03160fb05ab630ff8a.png)](https://gyazo.com/7977673b0eb95f03160fb05ab630ff8a)
-
 <h2 align="center">Goで作ったRESTAPI</h2>
 <p align="center">
   <a href="https://golang.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Go_Logo_Aqua.svg/1280px-Go_Logo_Aqua.svg.png" width="80px;"</a>
